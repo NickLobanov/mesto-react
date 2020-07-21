@@ -1,0 +1,31 @@
+@import url(__image/open-popup__image.css);
+@import url(__text/open-popup__text.css);
+@import url(__wrap/open-popup__wrap.css);
+
+.open-popup {
+    text-align: center;
+    position: relative;
+    margin: auto;
+    max-width: 75vw;
+    max-height: 75vh;
+}
+
+@media screen and (max-width: 1000px) {
+    .open-popup {
+        margin-top: 10%;
+    }
+}
+
+
+@media screen and (max-width: 650px) {
+    .open-popup {
+        margin-top: 20%;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .open-popup {
+        margin-top: 30%;
+    }
+}
+

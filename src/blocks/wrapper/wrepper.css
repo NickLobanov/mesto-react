@@ -1,0 +1,17 @@
+.wrapper {
+    max-width: 882px;
+    margin: 0 auto;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+@media screen and (max-width: 882px) {
+    .wrapper {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .wrapper {
+        width: 100%;
+    }
+}
