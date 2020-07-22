@@ -6,6 +6,13 @@ function Main({onEditProfile, onAddPlace, onEditAvatar}) {
     const [userName, setUserName] = React.useState('');
     const [userDescription, setUserDescription] = React.useState('');
     const [userAvatar, setUserAvatar] = React.useState('');
+    const [cards, setCards] = React.useState([]);
+
+    React.useEffect(() => {
+        api.get('cards').then(data => {
+            setCards(data)
+        }, [])
+    })
 
     React.useEffect(() => {
         api.get('users/me').then(data => {
@@ -13,7 +20,7 @@ function Main({onEditProfile, onAddPlace, onEditAvatar}) {
             setUserDescription(data.about);
             setUserAvatar(data.avatar);
         })
-    }) 
+    }, []) 
     return(
         <>
         <section className="profile">
@@ -31,7 +38,19 @@ function Main({onEditProfile, onAddPlace, onEditAvatar}) {
         </section>
 
         <section className="elements">
-
+            {cards.map(data => (
+                <div className="article" key={data._id}>
+                    <button className="article__basket" type="button"></button>
+                    <img className="article__foto"  alt={data.name} src={data.link}/>
+                    <div className="article__description">
+                    <p className="article__name">{data.name}</p>
+                        <div className="article__like-container">
+                            <button className="article__like" type="button"></button>
+                            <span className="article__like-amount">{data.likes.length}</span>
+                        </div>
+                    </div>
+                </div>
+            ))}
         </section>
         
         </>
