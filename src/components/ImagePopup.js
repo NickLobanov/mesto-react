@@ -6,7 +6,7 @@ function ImagePopup() {
             <div className="open-popup"> 
                 <img  alt="" className="open-popup__image" />
                 <p className="open-popup__text"></p>
-                <button className="popup__close-icon test" type="button"></button>
+                <button className="popup__close-icon test" type="button" ></button>
             </div>  
         </div>
     );
