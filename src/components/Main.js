@@ -12,8 +12,8 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
     React.useEffect(() => {
         api.get('cards').then(data => {
             setCards(data)
-        }, [])
-    })
+        })
+    }, [])
 
     React.useEffect(() => {
         api.get('users/me').then(data => {
@@ -40,7 +40,7 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
 
         <section className="elements">
             {cards.map(data => (
-                <Card key={data._id} name={data.name} link={data.link} likes={data.likes.length} onCardClick={onCardClick}/>
+                <Card key={data._id} name={data.name} link={data.link} likes={data.likes.length} cardClick={onCardClick}/>
             ))}
         </section>
         

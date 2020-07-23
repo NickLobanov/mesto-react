@@ -3,8 +3,9 @@ import React from 'react'
 function Card(props) {
 
     function handleClick() {
-        props.onCardClick(props.link)
-    }
+        props.cardClick(props.link);
+      }
+
     return(
         <div className="article" key={props._id}>
             <button className="article__basket" type="button"></button>
