@@ -1,7 +1,7 @@
 class Api {
-    constructor(baseUrl) {
+    constructor(baseUrl, token) {
         this._baseUrl = baseUrl;
-        this._token = '226a3b48-5e66-4b0b-a28d-c1cfea729696'
+        this._token = token;
     }
 
     get(url) {
@@ -17,9 +17,6 @@ class Api {
                     return res.json();
                 }
                 return Promise.reject(`Ошибка: ${res.status}`)
-            })
-            .catch((err) => {
-                console.log(err)
             })
             
     }
@@ -42,9 +39,6 @@ class Api {
                 }
                 return Promise.reject(`Ошибка: ${res.status}`)
             })
-            .catch((err) => {
-                console.log(err)
-            })
     }
 
     patchAvatar(url, values) {
@@ -63,9 +57,6 @@ class Api {
                     return res.json()
                 }
                 return Promise.reject(`Ошибка: ${res.status}`)
-            })
-            .catch((err) => {
-                console.log(err)
             })
     }
 
@@ -87,9 +78,6 @@ class Api {
                 }
                 return Promise.reject(`Ошибка: ${res.status}`)
             })
-            .catch((err) => {
-                console.log(err)
-            })
     }
 
     delete(url) {
@@ -105,9 +93,6 @@ class Api {
                     return res.json()
                 }
                 return Promise.reject(`Ошибка: ${res.status}`)
-            })
-            .catch((err) => {
-                console.log(err)
             })
     }
 
@@ -125,12 +110,9 @@ class Api {
                 }
                 return Promise.reject(`Ошибка: ${res.status}`)
             })
-            .catch((err) => {
-                console.log(err)
-            })
     }
 
 }
 const indentifier = 'cohort-12'
-const api = new Api(`https://mesto.nomoreparties.co/v1/${indentifier}/`)
+const api = new Api(`https://mesto.nomoreparties.co/v1/${indentifier}/`, '226a3b48-5e66-4b0b-a28d-c1cfea729696')
 export default api;
