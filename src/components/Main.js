@@ -8,9 +8,33 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
     const [cards, setCards] = React.useState([]);
     const currentUser = React.useContext(TranslationContext);
     
+    //обработчик постановки/снятия лайка
+    function handleCardLike(card) {
+            // Снова проверяем, есть ли уже лайк на этой карточке
+            const isLiked = card.likes.some(i => i._id === currentUser._id);
+            
+            // Отправляем запрос в API и получаем обновлённые данные карточки
+            (!isLiked ? api.put(`cards/likes/${card.id}`) : api.delete(`cards/likes/${card.id}`))
+            .then((newCard) => {
+            // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+            const newCards = cards.map((current) => current._id === card.id ? newCard : current);
+            // Обновляем стейт
+          setCards(newCards);
+        });
+    }
+    //обработчик удаления карточки
+    function handleCardDelete(cardId) {
+            api.delete(`cards/${cardId}`)
+            .then((newCard) => {
+            // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+            const newCards = cards.filter((current) => current._id === newCard._id );
+            // Обновляем стейт
+        setCards(newCards);
+        });
+    }
+
     React.useEffect(() => {
        api.get('cards').then(cardsData => {
-                console.log(cardsData)
                 setCards(cardsData);
             })
             .catch((err) => {
@@ -36,7 +60,15 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
 
         <section className="elements">
             {cards.map(data => (
-                <Card key={data._id} name={data.name} link={data.link} likes={data.likes} owner={data.owner._id} cardClick={onCardClick}/>
+                <Card id={data._id}
+                    key={data._id}
+                    name={data.name}
+                    link={data.link} 
+                    likes={data.likes}
+                    owner={data.owner._id}
+                    cardClick={onCardClick}
+                    cardLikeClick={handleCardLike}
+                    cardBasketClick={handleCardDelete}/>
             ))}
         </section>
         
