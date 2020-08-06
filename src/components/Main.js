@@ -50,8 +50,8 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
                 <div className="profile__pen" onClick={onEditAvatar}></div>
             </div>
             <div className="profile__info">
-            <h2 className="profile__name">{currentUser.name}</h2>
-            <p className="profile__description">{currentUser.about}</p>
+                <h2 className="profile__name">{currentUser.name}</h2>
+                <p className="profile__description">{currentUser.about}</p>
                 <button className="profile__edit" type="button" onClick={onEditProfile}></button>
             </div>
             

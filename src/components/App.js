@@ -6,6 +6,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/Api.js';
 import {TranslationContext} from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 
 function App() {
@@ -49,6 +50,16 @@ function App() {
         setSelectedCard({name: imageData.name, link: imageData.link});
     }
 
+    function handleUpdateUser(userData) {
+        api.patch('users/me', userData).then(newUserInfo => {
+            setCurrentUser(newUserInfo);
+            closeAllPopup();
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
   return (
     <div className="page">
         <TranslationContext.Provider value={currentUser}>
@@ -57,12 +68,7 @@ function App() {
             <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
             <Footer />
 
-            <PopupWithForm name={'edit'} title={'Редактировать профиль'} buttonTitle={'Сохранить'} isOpen={isEditProfilePopupOpen} onClose={closeAllPopup}>
-                <input id="form__title" type="text" name="name" className="popup__input popup__input_type_title"  required maxLength="40" minLength="2" pattern="[A-Za-zа-яА-Я -]{1,40}" />
-                <span id="form__title-error" className="popup__input-error"></span>
-                <input type="text" id="form__description" name="description" className="popup__input popup__input_type_description"  required maxLength="200" minLength="2" />
-                <span id="form__description-error" className="popup__input-error"></span>
-            </PopupWithForm>
+            <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopup} onUpdateUser={handleUpdateUser}/>
 
             <PopupWithForm name={'add'} title={'Новое место'} buttonTitle={'Создать'} isOpen={isAddPlacePopupOpen} onClose={closeAllPopup}>
                 <input id="form__title" type="text" name="title" className="popup__input popup__input_type_title"  placeholder="Название" required maxLength="30" minLength="1" />
