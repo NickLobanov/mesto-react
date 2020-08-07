@@ -3,44 +3,12 @@ import api from '../utils/Api.js';
 import Card from './Card';
 import { TranslationContext } from '../contexts/CurrentUserContext.js';
 
-function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
+function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete}) {
 
-    const [cards, setCards] = React.useState([]);
+    
     const currentUser = React.useContext(TranslationContext);
     
-    //обработчик постановки/снятия лайка
-    function handleCardLike(card) {
-            // Снова проверяем, есть ли уже лайк на этой карточке
-            const isLiked = card.likes.some(i => i._id === currentUser._id);
-            
-            // Отправляем запрос в API и получаем обновлённые данные карточки
-            (!isLiked ? api.put(`cards/likes/${card.id}`) : api.delete(`cards/likes/${card.id}`))
-            .then((newCard) => {
-            // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-            const newCards = cards.map((current) => current._id === card.id ? newCard : current);
-            // Обновляем стейт
-          setCards(newCards);
-        });
-    }
-    //обработчик удаления карточки
-    function handleCardDelete(cardId) {
-            api.delete(`cards/${cardId}`)
-            .then((newCard) => {
-            // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-            const newCards = cards.filter((current) => current._id === newCard._id );
-            // Обновляем стейт
-        setCards(newCards);
-        });
-    }
-
-    React.useEffect(() => {
-       api.get('cards').then(cardsData => {
-                setCards(cardsData);
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }, [])
+    
     
     return(
         <>
@@ -67,8 +35,8 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
                     likes={data.likes}
                     owner={data.owner._id}
                     cardClick={onCardClick}
-                    cardLikeClick={handleCardLike}
-                    cardBasketClick={handleCardDelete}/>
+                    cardLikeClick={onCardLike}
+                    cardBasketClick={onCardDelete}/>
             ))}
         </section>
         
