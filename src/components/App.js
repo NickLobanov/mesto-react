@@ -7,6 +7,7 @@ import ImagePopup from './ImagePopup';
 import api from '../utils/Api.js';
 import {TranslationContext} from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 
 function App() {
@@ -60,6 +61,17 @@ function App() {
         })
     }
 
+    function handleUpdateAvatar(userAvatar) {
+        console.log(userAvatar)
+        api.patchAvatar('users/me/avatar', userAvatar).then(newUserAvatar => {
+            setCurrentUser(newUserAvatar);
+            closeAllPopup();
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
   return (
     <div className="page">
         <TranslationContext.Provider value={currentUser}>
@@ -69,6 +81,7 @@ function App() {
             <Footer />
 
             <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopup} onUpdateUser={handleUpdateUser}/>
+            <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopup} onUpdateAvatar={handleUpdateAvatar}/>
 
             <PopupWithForm name={'add'} title={'Новое место'} buttonTitle={'Создать'} isOpen={isAddPlacePopupOpen} onClose={closeAllPopup}>
                 <input id="form__title" type="text" name="title" className="popup__input popup__input_type_title"  placeholder="Название" required maxLength="30" minLength="1" />
@@ -79,10 +92,7 @@ function App() {
 
             <PopupWithForm name={'confirm'} title={'Вы уверены?'} buttonTitle={'Да'} />
 
-            <PopupWithForm name={'avatar'} title={'Обновить аватар'} buttonTitle={'Сохранить'} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopup}>
-                <input id="form__title" type="url" name="link" className="popup__input popup__input_type_title"  placeholder="Название" required minLength="1" />
-                <span id="form__title-error" className="popup__input-error"></span>
-            </PopupWithForm>
+            
 
             <ImagePopup card={selectedCard} onClose={closeAllPopup}/>
 

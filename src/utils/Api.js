@@ -49,7 +49,7 @@ class Api {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                avatar: values.link
+                avatar: values.avatar
             })
         })
             .then(res => {
