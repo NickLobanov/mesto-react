@@ -1,12 +1,10 @@
 import React from 'react'
 import PopupWithForm from './PopupWithForm';
-import { TranslationContext } from '../contexts/CurrentUserContext.js';
 
 function AddPlacePopup({isOpen, onClose, onAddPlace}) {
 
     const [title, setTitle] = React.useState('');
     const [url, setUrl] = React.useState('');
-    const currentUser = React.useContext(TranslationContext);
 
     function handleChangeTitle(evt) {
         setTitle(evt.target.value)

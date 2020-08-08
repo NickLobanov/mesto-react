@@ -1,8 +1,8 @@
 import React from 'react'
-import {TranslationContext} from '../contexts/CurrentUserContext.js'
+import {CurrentUserContext} from '../contexts/CurrentUserContext.js'
 
 function Card({id, name, link, likes, owner, cardClick, cardLikeClick, cardBasketClick}) {
-    const currentUser = React.useContext(TranslationContext);
+    const currentUser = React.useContext(CurrentUserContext);
     // Определяем, являемся ли мы владельцем текущей карточки
     const isOwn = owner === currentUser._id;
     // Создаём переменную, которую после зададим в `className` для кнопки удаления

@@ -13,7 +13,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
     const avatarRef = React.useRef();
     return(
         <PopupWithForm name={'avatar'} title={'Обновить аватар'} buttonTitle={'Сохранить'} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
-            <input ref={avatarRef} id="form__title" type="url" name="link" className="popup__input popup__input_type_title"  placeholder="Название" required minLength="1" />
+            <input ref={avatarRef} id="form__title" type="url" name="link" className="popup__input popup__input_type_title"  placeholder="Адрес картинки" required minLength="1" />
             <span id="form__title-error" className="popup__input-error"></span>
         </PopupWithForm>
     );

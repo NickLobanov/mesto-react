@@ -5,7 +5,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/Api.js';
-import {TranslationContext} from '../contexts/CurrentUserContext';
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -20,42 +20,9 @@ function App() {
     const [currentUser, setCurrentUser] = React.useState({})
 
     React.useEffect(() => {
-        api.get('users/me').then(userData => {
-            setCurrentUser(userData);
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }, [])
-
-    const [cards, setCards] = React.useState([]);
-    //обработчик постановки/снятия лайка
-    function handleCardLike(card) {
-            // Снова проверяем, есть ли уже лайк на этой карточке
-            const isLiked = card.likes.some(i => i._id === currentUser._id);
-            
-            // Отправляем запрос в API и получаем обновлённые данные карточки
-            (!isLiked ? api.put(`cards/likes/${card.id}`) : api.delete(`cards/likes/${card.id}`))
-            .then((newCard) => {
-            // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-            const newCards = cards.map((current) => current._id === card.id ? newCard : current);
-            // Обновляем стейт
-            setCards(newCards);
-        });
-    }
-    //обработчик удаления карточки
-    function handleCardDelete(cardId) {
-            api.delete(`cards/${cardId}`)
-                .then(() => {
-                // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-                const newCards = cards.filter((current) => current._id !== cardId );
-                // Обновляем стейт
-                setCards(newCards);
-        });
-    }
-
-    React.useEffect(() => {
-    api.get('cards').then(cardsData => {
+        Promise.all([api.get('users/me'), api.get('cards')])
+            .then(([userData, cardsData]) => {
+                setCurrentUser(userData);
                 setCards(cardsData);
             })
             .catch((err) => {
@@ -63,6 +30,37 @@ function App() {
             })
     }, [])
 
+    const [cards, setCards] = React.useState([]);
+    //обработчик постановки/снятия лайка
+    function handleCardLike(card) {
+        // Снова проверяем, есть ли уже лайк на этой карточке
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+        (!isLiked ? api.put(`cards/likes/${card.id}`) : api.delete(`cards/likes/${card.id}`))
+            .then((newCard) => {
+                // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+                const newCards = cards.map((current) => current._id === card.id ? newCard : current);
+                // Обновляем стейт
+                setCards(newCards);
+            })
+            .catch((err) => {
+                console.log(err)
+            })    
+    }
+    //обработчик удаления карточки
+    function handleCardDelete(cardId) {
+        api.delete(`cards/${cardId}`)
+            .then(() => {
+                // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+                const newCards = cards.filter((current) => current._id !== cardId );
+                // Обновляем стейт
+                setCards(newCards);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
     function handleEditAvatarClick() {
         setEditAvatarClick(true); 
@@ -120,7 +118,7 @@ function App() {
 
   return (
     <div className="page">
-        <TranslationContext.Provider value={currentUser}>
+        <CurrentUserContext.Provider value={currentUser}>
             <div className="wrapper">
             <Header />
             <Main onEditProfile={handleEditProfileClick}
@@ -141,7 +139,7 @@ function App() {
             <ImagePopup card={selectedCard} onClose={closeAllPopup}/>
 
             </div>
-        </TranslationContext.Provider>
+        </CurrentUserContext.Provider>
         
     </div>
   );
