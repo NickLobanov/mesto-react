@@ -39,7 +39,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
                 minLength="2"
                 pattern="[A-Za-zа-яА-Я -]{1,40}"
                 onChange={handleChangeName}
-                defaultValue={currentUser.name} />
+                value={name} />
             <span id="form__title-error" className="popup__input-error"></span>
             <input type="text"
                 id="form__description"
@@ -48,7 +48,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
                 required maxLength="200"
                 minLength="2"
                 onChange={handleChangeDescription}
-                defaultValue={currentUser.about} />
+                value={description} />
             <span id="form__description-error" className="popup__input-error"></span>
         </PopupWithForm>
     );
