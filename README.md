@@ -8,4 +8,4 @@
 * JavaScript  
 * React 
 
-GitHub Pages: https://nicklobanov.github.io/mesto-react/
+
