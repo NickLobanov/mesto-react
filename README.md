@@ -8,4 +8,5 @@
 * JavaScript  
 * React 
 
+gh-pages: https://nicklobanov.github.io/mesto-react/
 
